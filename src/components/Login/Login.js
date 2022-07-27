@@ -11,6 +11,47 @@ const Login = (props) => {
 	const [passwordIsValid, setPasswordIsValid] = useState();
 	const [formIsValid, setFormIsValid] = useState(false);
 
+	/**
+	 * WHEN DOES useEffect() RUN???
+	 * Uncomment examples below to see behaviour in console.
+	 */
+
+	/**
+	 * 1) With no dependencies, every time component re-renders
+	 */
+	// useEffect(() => {
+	// 	console.log('NO DEPENDENCIES');
+	// });
+
+	/**
+	 * 2) With empty dependencies array, when component is first
+	 * mounted to the DOM
+	 */
+	// useEffect(() => {
+	// 	console.log('EMPTY DEPENDENCIES ARRAY');
+	// }, []);
+
+	/**
+	 * 3) With dependencies, only when state of specified
+	 * dependencies changes
+	 */
+	// useEffect(() => {
+	// 	console.log('PASSWORD STATE HAS CHANGED');
+	// }, [enteredPassword]);
+
+	/**
+	 * 4) Returned function in useEffect() will always run
+	 * before it runs again or the component unmounted
+	 * from the DOM.
+	 */
+	// useEffect(() => {
+	// 	console.log('EFFECT RUNNING');
+
+	// 	return () => {
+	// 		console.log('EFFECT CLEANUP');
+	// 	};
+	// }, [enteredPassword]);
+
 	useEffect(() => {
 		/**
 		 * Debounce function ensures form validation check
@@ -35,10 +76,6 @@ const Login = (props) => {
 		/**
 		 * Clean up function that resets timeOut to 0 if
 		 * useEffect dependencies change in under 500ms.
-		 *
-		 * Returned function in useEffect() will always run
-		 * before it runs again or the component unmounted
-		 * from the DOM.
 		 */
 		return () => {
 			console.log('Clear timer');
