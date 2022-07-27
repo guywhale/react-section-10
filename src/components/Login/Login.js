@@ -12,9 +12,38 @@ const Login = (props) => {
 	const [formIsValid, setFormIsValid] = useState(false);
 
 	useEffect(() => {
-		setFormIsValid(
-			enteredEmail.includes('@') && enteredPassword.trim().length > 6
-		);
+		/**
+		 * Debounce function ensures form validation check
+		 * is only run when user has finished typing NOT
+		 * after every key stroke i.e. 500ms after last
+		 * change event in input.
+		 *
+		 * First keystroke initiates debouncer timeOut,
+		 * any subsequent keystrokes that take place in less
+		 * than 500ms immediatedly reset timeOut to 0.
+		 *
+		 * Only once user has stopped typing for more than
+		 * 500ms will the form validation check run.
+		 */
+		const debouncer = setTimeout(() => {
+			console.log('Validate');
+			setFormIsValid(
+				enteredEmail.includes('@') && enteredPassword.trim().length > 6
+			);
+		}, 500);
+
+		/**
+		 * Clean up function that resets timeOut to 0 if
+		 * useEffect dependencies change in under 500ms.
+		 *
+		 * Returned function in useEffect() will always run
+		 * before it runs again or the component unmounted
+		 * from the DOM.
+		 */
+		return () => {
+			console.log('Clear timer');
+			clearTimeout(debouncer);
+		};
 	}, [enteredEmail, enteredPassword]);
 
 	const emailChangeHandler = (event) => {
